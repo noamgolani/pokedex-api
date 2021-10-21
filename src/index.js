@@ -11,7 +11,6 @@ app.use(express.json());
 
 app.use("/pokemon", userHandler, pokemonRouter);
 app.use("/user", userRouter);
-
 app.use(errorHandler);
 
 app.listen(port, function () {
