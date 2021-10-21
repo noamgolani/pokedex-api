@@ -19,13 +19,16 @@ router.get("/get/:id", async (req, res, next) => {
   }
 });
 
-router.get("/query", async (req, res) => {
+router.get("/query", async (req, res, next) => {
   const { query } = req.body;
-  // TODO add check and error handling
 
-  const pokemonData = parsePokemon(await p.getPokemonByName(query));
-
-  res.send(pokemonData);
+  try {
+    if (!query) throw { status: 400, message: "Must provide a query" };
+    const pokemonData = parsePokemon(await p.getPokemonByName(query));
+    res.send(pokemonData);
+  } catch (err) {
+    if (err.isAxiosError) next({ status: 404, message: "Pokemon not found" });
+  }
 });
 
 router.put("/catch/:id", (req, res) => {
