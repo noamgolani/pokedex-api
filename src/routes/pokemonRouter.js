@@ -9,8 +9,6 @@ router.get("/get/:id", async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    if (!+id || +id <= 0)
-      throw { status: 400, message: "id must be of type number" };
     const pokemonData = parsePokemon(await p.getPokemonByName(id));
     res.send(pokemonData);
   } catch (err) {
@@ -33,7 +31,7 @@ router.get("/query", async (req, res, next) => {
 
 router.put("/catch/:id", (req, res) => {
   const { id } = req.params;
-  const pokemon = req.body;
+  const { pokemon } = req.body;
 
   if (Object.entries(pokemon).length === 0)
     throw { status: 400, message: "Must provide pokemon data (JSON)" };
@@ -83,8 +81,8 @@ function parsePokemon(poke) {
     height: poke.height,
     weight: poke.weight,
     types: poke.types.map(({ type }) => type),
-    front_pic: poke.sprites.front_pic,
-    back_pic: poke.sprites.back_pic,
+    front_pic: poke.sprites.front_default,
+    back_pic: poke.sprites.back_default,
     abilities: poke.abilities.map(({ ability }) => ability),
   };
 }

@@ -3,9 +3,9 @@ module.exports.errorHandler = function (err, req, res, next) {
   if (!err.status) {
     console.error(err);
     res.status(500);
-    res.send("Internal server error");
+    res.send({ error: "Internal server error"});
   } else {
     res.status(err.status);
-    res.send(err.message);
+    res.send({ error: err.message });
   }
 };
