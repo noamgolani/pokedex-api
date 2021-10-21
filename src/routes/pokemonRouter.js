@@ -40,6 +40,20 @@ router.put("/catch/:id", (req, res) => {
   res.send("Success");
 });
 
+router.delete("/release/:id", (req, res) => {
+  const { id } = req.params;
+  const { username } = req;
+
+  const filePath = path.resolve(path.join("./users", username, `${id}.json`));
+  if (!fs.existsSync(filePath))
+    throw {
+      status: 403,
+      message: "You cant release a pokemon you dont have...",
+    };
+
+  fs.rmSync(filePath);
+  res.send("Success");
+});
 module.exports = router;
 
 function parsePokemon(poke) {
