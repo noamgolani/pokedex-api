@@ -7,13 +7,14 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 
 app.use("/pokemon", userHandler, pokemonRouter);
 app.use("/user", userRouter);
+app.use("/", express.static("./front/dist"));
 
 app.use(errorHandler);
 
