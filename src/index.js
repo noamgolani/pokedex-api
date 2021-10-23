@@ -20,7 +20,7 @@ app.use("/user", userRouter);
 app.get("/", function (req, res) {
   res.sendFile(path.resolve("./dist/index.html"));
 });
-app.use("/", express.static(path.resolve("./front/dist")));
+app.use("/", express.static(path.resolve("./dist")));
 
 app.use(errorHandler);
 
