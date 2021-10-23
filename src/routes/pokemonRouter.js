@@ -2,8 +2,43 @@ const Pokedex = require("pokedex-promise-v2");
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const axios = require("axios");
 const router = express.Router();
 const p = new Pokedex();
+
+router.get('/getDetailed/:id', async (req,res,next) => {
+  const {id} = req.params;
+
+  try {
+    const pokemonData = parsePokemon(await p.getPokemonByName(id));
+
+    const abilitiesRes = await Promise.allSettled(pokemonData.abilities.map(async ({name, url}) => {
+      const axiosRes = await axios.get(url);
+      const pokemonList = axiosRes.data.pokemon.map(({pokemon}) => pokemon.name);
+      return {
+        name: name,
+        list: pokemonList
+      }
+    }));
+    pokemonData.abilities = abilitiesRes.filter(({status}) => status === 'fulfilled').map(({value}) => value);
+
+    const typesRes = await Promise.allSettled(pokemonData.types.map(async ({name, url}) => {
+      const axiosRes = await axios.get(url);
+      const pokemonList = axiosRes.data.pokemon.map(({pokemon}) => pokemon.name);
+      return {
+        name: name,
+        list: pokemonList
+      }
+    }));
+    pokemonData.types = typesRes.filter(({status}) => status === 'fulfilled').map(({value}) => value);
+
+    res.send(pokemonData);
+  } catch (err) {
+    if (err.isAxiosError) next({ status: 404, message: "Pokemon not found" });
+    else next(err);
+  }
+
+});
 
 router.get("/get/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -77,6 +112,7 @@ module.exports = router;
 
 function parsePokemon(poke) {
   return {
+    id: poke.id,
     name: poke.name,
     height: poke.height,
     weight: poke.weight,
