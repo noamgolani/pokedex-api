@@ -18,7 +18,7 @@ app.use(express.json());
 app.use("/pokemon", userHandler, pokemonRouter);
 app.use("/user", userRouter);
 app.get("/", function (req, res) {
-  res.sendFile(path.resolve("./front/dist/index.html"));
+  res.sendFile(path.resolve("./dist/index.html"));
 });
 app.use("/", express.static(path.resolve("./front/dist")));
 
