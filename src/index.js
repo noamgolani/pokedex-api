@@ -3,7 +3,6 @@ const userRouter = require("./routes/userRouter");
 const { userHandler } = require("./middleware/userHandler");
 const { errorHandler } = require("./middleware/errorHandler");
 const path = require("path");
-const fs = require("fs");
 
 const cors = require("cors");
 const express = require("express");
