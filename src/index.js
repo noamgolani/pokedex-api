@@ -14,11 +14,11 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/pokemon", userHandler, pokemonRouter);
+app.use("/user", userRouter);
 app.get("/", function (req, res) {
   res.sendFile(path.resolve("./front/dist/index.html"));
 });
-app.use("/user", userRouter);
-app.use("/", express.static("./front/dist"));
+app.use("/", express.static(path.resolve("./front/dist")));
 
 app.use(errorHandler);
 
