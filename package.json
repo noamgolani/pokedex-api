@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "build": "cd ./front && npm run build",
     "deploy": "npm run build && git add ./dist && git commit -m 'auto deploy commit' && git push"
   },
   "repository": {
