@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "build": "cd ./front && npm run build",
+    "deploy": "npm run build && git add . && git commit -m 'auto deploy commit' && git push heroku master"
   },
   "repository": {
     "type": "git",
