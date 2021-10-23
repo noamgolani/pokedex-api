@@ -8,5 +8,6 @@ module.exports.userHandler = function (req, res, next) {
   const userPath = path.resolve(path.join("./users", username));
   if (!fs.existsSync(userPath)) fs.mkdirSync(userPath);
   req.username = username;
+
   next();
 };

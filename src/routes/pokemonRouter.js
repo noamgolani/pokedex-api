@@ -68,7 +68,7 @@ router.put("/catch/:id", (req, res) => {
   const { id } = req.params;
   const { pokemon } = req.body;
 
-  if (Object.entries(pokemon).length === 0)
+  if (!pokemon || Object.entries(pokemon).length === 0)
     throw { status: 400, message: "Must provide pokemon data (JSON)" };
 
   const { username } = req;
