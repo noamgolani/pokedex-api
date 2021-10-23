@@ -13,6 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/pokemon", userHandler, pokemonRouter);
+app.get("/", function (req, res) {
+  res.sendFile("./front/dist/index.html");
+});
 app.use("/user", userRouter);
 app.use("/", express.static("./front/dist"));
 
